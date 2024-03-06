@@ -7,7 +7,7 @@ Copy the script to `PATH`. For ease of use, remove the `.sh` file extension.
 
 ## Usage
 ```
-reporeport <bare repo dir> [-t | --temp <temp dir] [-o | --output <output file>]
+reporeport <bare repo dir> [-t | --temp <temp dir>] [-o | --output <output file>]
 ```
 
 ## License
