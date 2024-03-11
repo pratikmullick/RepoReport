@@ -39,7 +39,7 @@ rm -rf $output
 # Main
 for gitdir in $(find $bare_repo_dir -type d -name "*.git"); do
     repo_name=$(basename "$gitdir");
-    git clone $gitdir $temp_dir/$repo_name;
+    git clone $gitdir $temp_dir/$repo_name > /dev/null 2>&1;
     cd $temp_dir/$repo_name;
     if git rev-list --count HEAD > /dev/null 2>&1; then
         git --no-pager log --all --pretty=format:"%ad" --date=short | cut -d' ' -f1 >> $output;
