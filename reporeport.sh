@@ -12,7 +12,6 @@ shift
 
 # Create Optional Argument Defaults
 temp_dir="/tmp"
-output="/tmp/reporeport.data"
 
 # Parse Optional Argument from Command Line 
 while [[ "$#" -gt 0 ]]; do
@@ -22,19 +21,32 @@ while [[ "$#" -gt 0 ]]; do
             shift
             ;;
         -o|--output)
-            output="$2"
+            # Check whether $2 is path or filename
+            if [[ $2 == *"/"* ]]; then
+                output="$2"
+            else
+                output=$(pwd)/"$2"
+            fi
+            # Check whether $output file exists or not
+            if [ -a $output ]; then
+                echo "Error: Output file exists. Exiting.";
+                exit 1;
+            fi
             shift
             ;;
         *)
-            echo "Unknown option: $1"
+            echo "Error: Unknown option: $1"
             exit 1
             ;;
     esac
     shift
 done
 
-# Clears output so that script can be run multiple times in same session
-rm -rf $output
+# Set outputfile to default if not set
+if [ -z $output ]; then
+    output="/tmp/reporeport.data"
+    rm -rf $output;
+fi
 
 # Main
 for gitdir in $(find $bare_repo_dir -type d -name "*.git"); do
