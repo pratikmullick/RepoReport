@@ -1,9 +1,24 @@
 #!/bin/bash
 
+version="v1.0.0"
+about="RepoReport: Git commit history counter"
+
 # Check if bare repo directory is provided.
-if [ -z "$1" ]; then
-    echo "Usage: $0 <bare repo dir> [-t | --t <temp dir>] [-o | --output]"
-    exit 1
+# If not, or has -h flag, display help message.
+if [[ -z "$1" || "$1" == "-h" || "$1" == "--help" ]]; then
+    echo $about;
+    echo "Usage: $(basename $0) [GIT BARE PATH]";
+    echo "  -h    --help";
+    echo "  -v    --version";
+    echo "  -t    --temp   [TEMP DIR]";
+    echo "  -o    --output [FILENAME]";
+    exit 1;
+else
+    if [[ "$1" == "-v" || "$1" == "--version" ]]; then
+        echo $about;
+        echo "Version:" $version;
+        exit 0;
+    fi
 fi
 
 # Assign bare repo variable
