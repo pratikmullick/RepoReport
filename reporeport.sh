@@ -1,24 +1,47 @@
 #!/bin/bash
 
-version="v1.0.0"
-about="RepoReport: Git commit history counter"
+# Author: Pratik Mullick
+# Description: A git commit history tracker
+# Version: 1.1
+# License: MIT License
 
-# Check if bare repo directory is provided.
-# If not, or has -h flag, display help message.
-if [[ -z "$1" || "$1" == "-h" || "$1" == "--help" ]]; then
-    echo $about;
-    echo "Usage: $(basename $0) [GIT BARE PATH]";
-    echo "  -h    --help";
-    echo "  -v    --version";
-    echo "  -t    --temp   [TEMP DIR]";
-    echo "  -o    --output [FILENAME]";
+version="v1.1"
+
+display_help()  {
+    cat << EOF
+RepoReport: A git commit history tracker
+
+Usage: reporeport GIT_BARE_PATH [OPTIONS]
+
+GIT_BARE_PATH
+  Git repository bare directory path
+
+Options:
+  -h    --help           Display this help message
+  -v    --version        Display version information
+  -t    --temp   <dir>   Specify temporary directory (Default: /tmp)
+  -o    --output <file>  Specify data output file (Default: /tmp/reporeport.dat)
+
+EOF
+}
+
+# Check if bare repo directory is provided. If not, display help
+if [[ -z "$1" ]]; then
+    echo "Error: Git bare repository path missing.";
+    display_help;
     exit 1;
-else
-    if [[ "$1" == "-v" || "$1" == "--version" ]]; then
-        echo $about;
-        echo "Version:" $version;
-        exit 0;
-    fi
+fi
+
+# Display help message
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    display_help;
+    exit 0;
+fi
+
+# Display version information
+if [[ "$1" == "-v" || "$1" == "--version" ]]; then
+    echo "Version:" $version;
+    exit 0;
 fi
 
 # Assign bare repo variable
@@ -59,7 +82,7 @@ done
 
 # Set outputfile to default if not set
 if [ -z $output ]; then
-    output="/tmp/reporeport.data"
+    output="/tmp/reporeport.dat"
     rm -rf $output;
 fi
 
